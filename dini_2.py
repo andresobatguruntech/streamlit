@@ -34,7 +34,7 @@ def proses_page():
         
         st.write("Proses Membutuhkan waktu, mohon tunggu hingga seluruh proses selesai") 
 
-        df = pd.read_csv("detik-fiks.csv")
+        df = pd.read_csv("https://raw.githubusercontent.com/andresobatguruntech/streamlit/main/detik-fiks.csv")
         df_subset = df.head(15020)        
         df_subset.to_csv("dataset.csv", index=False)
         st.write("Tahap Prepocessing : Start, Please Wait") 
