@@ -259,13 +259,16 @@ def proses_page():
         st.success("Prosess Finish")
 
 def informasi_artikel():
-    if st.button("Tampilkan"):   
-        st.title("Informasi Artikel")       
-        df = pd.read_csv('resultTopic.csv')
-        df.iloc[:, 0:6]
-
-        st.write("Finish") 
-        st.success("Prosess Finish")
+    if st.button("Tampilkan"):
+        try:
+            st.title("Informasi Artikel")       
+            df = pd.read_csv('resultTopic.csv')
+            df.iloc[:, 0:6]
+    
+            st.write("Finish") 
+            st.success("Prosess Finish")
+        except:
+            st.warning('Harap lakukan proses pemodelan topik terlebih dahulu di menu BERTopic', icon="⚠️")
 
 pages = {
     "Home"   : home_page,    
