@@ -260,12 +260,14 @@ def proses_page():
         st.success("Prosess Finish")
 
 def informasi_artikel():
+    st.title("Informasi Artikel")       
+    df = pd.read_csv('resultTopic.csv')
+    st.write("Hasil Pemodelan Topik")
+    df.iloc[:, 0:6]
+    
     if st.button("Tampilkan"):
         try:
-            st.title("Informasi Artikel")       
-            df = pd.read_csv('resultTopic.csv')
             st.write("Hasil Pemodelan Topik")
-            df.iloc[:, 0:6]
             
 
                         
@@ -308,18 +310,17 @@ def informasi_artikel():
         topic_options = sorted(df['Topic'].unique())
         selected_topic = st.selectbox("Pilih Topik", topic_options)
     
-        if st.button("Tampilkan"):
-            # Filter dataframe based on selected topic
-            filtered_df = df[df['Topic'] == selected_topic]
-    
-            # Display filtered data
-            st.write(f"Menampilkan artikel untuk topik {selected_topic}")
-            for idx, row in filtered_df.iterrows():
-                # Ensure 'link' column exists to avoid KeyError
-                if 'link' in df.columns and 'Document' in df.columns:
-                    st.markdown(f"- [{row['Document']}]({row['link']})")
-                else:
-                    st.error("Kolom 'link' atau 'Document' tidak ditemukan di dataset.")
+        # Filter dataframe based on selected topic
+        filtered_df = df[df['Topic'] == selected_topic]
+
+        # Display filtered data
+        st.write(f"Menampilkan artikel untuk topik {selected_topic}")
+        for idx, row in filtered_df.iterrows():
+            # Ensure 'link' column exists to avoid KeyError
+            if 'link' in df.columns and 'Document' in df.columns:
+                st.markdown(f"- [{row['Document']}]({row['link']})")
+            else:
+                st.error("Kolom 'link' atau 'Document' tidak ditemukan di dataset.")
 pages = {
     "Home"   : home_page,    
     "BERTopic": proses_page,
