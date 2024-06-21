@@ -274,18 +274,18 @@ def informasi_artikel():
     selected_topic = st.selectbox("Pilih Topik", topic_options)
     st.write("Pilihan Topik Anda:", selected_topic)
 
-    if st.button("Tampilkan"):
-        # Filter dataframe based on selected topic
-        filtered_df = df[df['Topic'] == selected_topic]
+    # if st.button("Tampilkan"):
+        # # Filter dataframe based on selected topic
+        # filtered_df = df[df['Topic'] == selected_topic]
 
-        # Display filtered data
-        st.write(f"Menampilkan artikel untuk topik {selected_topic}")
-        for idx, row in filtered_df.iterrows():
-            # Ensure 'link' column exists to avoid KeyError
-            if 'link' in df.columns and 'Document' in df.columns:
-                st.markdown(f"- [{row['Document']}]({row['link']})")
-            else:
-                st.error("Kolom 'link' atau 'Document' tidak ditemukan di dataset.")
+        # # Display filtered data
+        # st.write(f"Menampilkan artikel untuk topik {selected_topic}")
+        # for idx, row in filtered_df.iterrows():
+        #     # Ensure 'link' column exists to avoid KeyError
+        #     if 'link' in df.columns and 'Document' in df.columns:
+        #         st.markdown(f"- [{row['Document']}]({row['link']})")
+        #     else:
+        #         st.error("Kolom 'link' atau 'Document' tidak ditemukan di dataset.")
 
     st.write("Finish") 
     st.success("Proses Finish")
