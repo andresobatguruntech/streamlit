@@ -269,6 +269,24 @@ def informasi_artikel():
             st.success("Prosess Finish")
         except:
             st.warning('Harap lakukan proses pemodelan topik terlebih dahulu di menu BERTopic', icon="⚠️")
+        df['date'] = df_subset['date'] 
+        df['link'] = df_subset['link']
+        df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
+
+        date_counts = df['date'].value_counts().sort_index().reset_index()
+        date_counts.columns = ['date', 'count']
+        
+        fig = px.line(date_counts, x='date', y='count', title='Trend Pemberitaan Berdasarkan Tanggal')
+        fig.update_xaxes(title='Tanggal')
+        fig.update_yaxes(title='Jumlah Dokumen')
+        fig.update_layout(
+            xaxis=dict(tickformat="%d-%m-%Y", tickangle=45),
+            hovermode='x'
+        )
+        if not os.path.exists('hasil'):
+            os.makedirs('hasil')
+        visual_trend = fig.write_html('trend_pemberitaan.html')
+        st.write(visual_trend)
 
 pages = {
     "Home"   : home_page,    
