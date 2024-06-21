@@ -8,6 +8,7 @@ import spacy
 import os
 from spacy.lang.id.stop_words import STOP_WORDS
 import matplotlib.pyplot as plt
+import plotly.express as px
 from bertopic import BERTopic
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 from scipy.spatial import distance
