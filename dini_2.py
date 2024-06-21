@@ -271,8 +271,8 @@ def informasi_artikel():
 
     # Filter by topic
     topic_options = sorted(df['Topic'].unique())
-    topic_options
     selected_topic = st.selectbox("Pilih Topik", topic_options)
+    st.write("Pilihan Topik Anda:", selected_topic)
 
     if st.button("Tampilkan"):
         # Filter dataframe based on selected topic
