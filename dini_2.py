@@ -270,7 +270,7 @@ def informasi_artikel():
             st.write("Trend Pemberitaan")
         except:
             st.warning('Harap lakukan proses pemodelan topik terlebih dahulu di menu BERTopic', icon="⚠️")
-            
+        df_subset = pd.read_csv("https://raw.githubusercontent.com/andresobatguruntech/streamlit/main/detik-fiks.csv")  
         df['date'] = df_subset['date'] 
         df['link'] = df_subset['link']
         df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
