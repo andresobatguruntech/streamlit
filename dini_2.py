@@ -271,9 +271,9 @@ def informasi_artikel():
             df['date'] = df_subset['date'] 
             df['link'] = df_subset['link']
             df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
+            df.head(10)
             date_counts = df['date'].value_counts().sort_index().reset_index()
             date_counts.columns = ['date', 'count']
-            df.head()
             fig = px.line(date_counts, x='date', y='count', title='Trend Pemberitaan Berdasarkan Tanggal')
             fig.update_xaxes(title='Tanggal')
             fig.update_yaxes(title='Jumlah Dokumen')
