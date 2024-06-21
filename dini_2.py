@@ -286,8 +286,8 @@ def informasi_artikel():
         )
         if not os.path.exists('hasil'):
             os.makedirs('hasil')
-        visual_trend = fig.write_html('trend_pemberitaan.html')
-        st.write(visual_trend)
+        fig.write_html('trend_pemberitaan.html')
+        st.plotly_chart(fig, use_container_width=True)
         st.write("Finish") 
         st.success("Prosess Finish")
 
