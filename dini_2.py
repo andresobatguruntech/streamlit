@@ -66,7 +66,7 @@ def proses_page():
         st.write("Tahap Stopword Removal : Finish")  
 
         train = pd.read_csv('dataset.csv')
-        docs = train['description_clean'].to_list()
+        docs = train['description_stopword_removal'].to_list()
         st.write("Hasil Preprocessing")
         train[['description', 'description_lower_case', 'description_clean', 'description_stopword_removal']]
         st.write("Tahap Prepocessing : Finish") 
