@@ -266,31 +266,41 @@ def informasi_artikel():
             df = pd.read_csv('resultTopic.csv')
             st.write("Hasil Pemodelan Topik")
             df.iloc[:, 0:6]
-
-            st.write("Trend Pemberitaan")
+            df_subset = pd.read_csv("https://raw.githubusercontent.com/andresobatguruntech/streamlit/main/detik-fiks.csv")  
+            df['date'] = df_subset['date'] 
+            df['link'] = df_subset['link']
+            df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
+            date_counts = df['date'].value_counts().sort_index().reset_index()
+            date_counts.columns = ['date', 'count']
+            date_counts
+            fig = px.line(date_counts, x='date', y='count', title='Trend Pemberitaan Berdasarkan Tanggal')
+            fig.update_xaxes(title='Tanggal')
+            fig.update_yaxes(title='Jumlah Dokumen')
+            fig.update_layout(
+                xaxis=dict(tickformat="%d-%m-%Y", tickangle=45),
+                hovermode='x'
+            )
+            if not os.path.exists('hasil'):
+                os.makedirs('hasil')
+            fig.write_html('trend_pemberitaan.html')
+            st.plotly_chart(fig, use_container_width=True)
+    
+            topic_counts = df.groupby(['Name', 'date']).size().reset_index(name='count')
+            top_5_topics = topic_counts.groupby('Name')['count'].sum().nlargest(5).index
+            fig = px.line(topic_counts[topic_counts['Name'].isin(top_5_topics)], 
+                          x='date', 
+                          y='count', 
+                          color='Name', 
+                          title='Trend Pemberitaan Berdasarkan Tanggal untuk 5 Topik Utama')
+            fig.update_xaxes(title='Tanggal', tickformat="%d-%m-%Y", tickangle=45)
+            fig.update_yaxes(title='Jumlah Dokumen')
+            fig.update_layout(hovermode='x') 
+            fig.write_html('trend_topik.html')
+            st.plotly_chart(fig, use_container_width=True)
+            st.write("Finish") 
+            st.success("Prosess Finish")
         except:
             st.warning('Harap lakukan proses pemodelan topik terlebih dahulu di menu BERTopic', icon="⚠️")
-        df_subset = pd.read_csv("https://raw.githubusercontent.com/andresobatguruntech/streamlit/main/detik-fiks.csv")  
-        df['date'] = df_subset['date'] 
-        df['link'] = df_subset['link']
-        df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
-        date_counts = df['date'].value_counts().sort_index().reset_index()
-        date_counts.columns = ['date', 'count']
-        date_counts
-        fig = px.line(date_counts, x='date', y='count', title='Trend Pemberitaan Berdasarkan Tanggal')
-        fig.update_xaxes(title='Tanggal')
-        fig.update_yaxes(title='Jumlah Dokumen')
-        fig.update_layout(
-            xaxis=dict(tickformat="%d-%m-%Y", tickangle=45),
-            hovermode='x'
-        )
-        if not os.path.exists('hasil'):
-            os.makedirs('hasil')
-        fig.write_html('trend_pemberitaan.html')
-        st.plotly_chart(fig, use_container_width=True)
-        st.write("Finish") 
-        st.success("Prosess Finish")
-
 pages = {
     "Home"   : home_page,    
     "BERTopic": proses_page,
