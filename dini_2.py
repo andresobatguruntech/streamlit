@@ -266,7 +266,25 @@ def informasi_artikel():
             df = pd.read_csv('resultTopic.csv')
             st.write("Hasil Pemodelan Topik")
             df.iloc[:, 0:6]
-            df_subset = pd.read_csv("https://raw.githubusercontent.com/andresobatguruntech/streamlit/main/detik-fiks.csv")  
+            
+            topic_options = sorted(df['Topic'].unique())
+            selected_topic = st.selectbox("Pilih Topik", topic_options)
+        
+            if st.button("Tampilkan"):
+                # Filter dataframe based on selected topic
+                filtered_df = df[df['Topic'] == selected_topic]
+        
+                # Display filtered data
+                st.write(f"Menampilkan artikel untuk topik {selected_topic}")
+                for idx, row in filtered_df.iterrows():
+                    # Ensure 'link' column exists to avoid KeyError
+                    if 'link' in df.columns and 'Document' in df.columns:
+                        st.markdown(f"- [{row['Document']}]({row['link']})")
+                    else:
+                        st.error("Kolom 'link' atau 'Document' tidak ditemukan di dataset.")
+                        
+            #Trend Pemberitaan Berdasarkan Tanggal
+            df_subset = pd.read_csv("detik-fiks.csv")  
             df['date'] = df_subset['date'] 
             df['link'] = df_subset['link']
             df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
@@ -283,7 +301,8 @@ def informasi_artikel():
                 os.makedirs('hasil')
             fig.write_html('trend_pemberitaan.html')
             st.plotly_chart(fig, use_container_width=True)
-    
+            
+            #Trend Pemberitaan Berdasarkan Tanggal untuk 5 Topik Utama
             topic_counts = df.groupby(['Name', 'date']).size().reset_index(name='count')
             top_5_topics = topic_counts.groupby('Name')['count'].sum().nlargest(5).index
             fig = px.line(topic_counts[topic_counts['Name'].isin(top_5_topics)], 
