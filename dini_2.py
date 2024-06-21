@@ -321,8 +321,6 @@ def informasi_artikel():
         st.plotly_chart(fig, use_container_width=True)
         st.write("Finish") 
         st.success("Prosess Finish")
-        st.write("Finish") 
-        st.success("Proses Finish")
     except:
         st.warning('Harap lakukan proses pemodelan topik terlebih dahulu di menu BERTopic', icon="⚠️")
 pages = {
