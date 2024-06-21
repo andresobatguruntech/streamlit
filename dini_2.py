@@ -273,11 +273,12 @@ def informasi_artikel():
         topic_options = sorted(df['Topic'].unique())
         selected_topic = st.selectbox("Pilih Topik", topic_options)
         
+        df_subset = pd.read_csv("detik-fiks.csv")  
+        df['date'] = df_subset['date'] 
+        df['link'] = df_subset['link']
+        df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
+        
         if st.button("Tampilkan"):
-            df_subset = pd.read_csv("detik-fiks.csv")  
-            df['date'] = df_subset['date'] 
-            df['link'] = df_subset['link']
-            df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
             # Filter dataframe based on selected topic
             filtered_df = df[df['Topic'] == selected_topic]
     
